@@ -1,5 +1,6 @@
 package com.example.snsproject
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -45,6 +46,39 @@ class PostingsActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.setHasFixedSize(true)
         viewModel.loginUserName = myNickName
+
+        var ref = rootRef.child("user_profile_image/${myNickName}.jpg")
+        ref.getBytes(Long.MAX_VALUE).addOnCompleteListener{
+            if(it.isSuccessful){
+                val bmp = BitmapFactory.decodeByteArray(it.result,0,it.result.size)
+                binding.profileButton.setImageBitmap(bmp)
+            }else{
+                var ref = rootRef.child("user_profile_image/default.jpg")
+                ref.getBytes(Long.MAX_VALUE).addOnCompleteListener{
+                    if(it.isSuccessful){
+                        val bmp = BitmapFactory.decodeByteArray(it.result,0,it.result.size)
+                        binding.profileButton.setImageBitmap(bmp)
+                    }else{
+                        println("undefined err")
+                    }
+                }
+            }
+        }
+        binding.helpButton.setOnClickListener {
+            //help activity로 이동
+            val intent = Intent(this,PostingsHelpActivity::class.java)
+            startActivity(intent)
+        }
+        binding.profileButton.setOnClickListener {
+            //profile 등록 activity로 이동
+        }
+        binding.logoutButton.setOnClickListener {
+            //로그인 activity로 강제 이동
+        }
+        binding.postButton.setOnClickListener {
+            //게시글 작성 activity로 강제 이동
+        }
+
 
         viewModel.itemsListData.observe(this){
             adapter.notifyDataSetChanged()

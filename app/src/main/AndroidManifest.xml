@@ -15,6 +15,11 @@
             android:label="@string/title_activity_postings"
             android:theme="@style/Theme.SnsProject.NoActionBar" />
         <activity
+            android:name=".PostingsHelpActivity"
+            android:exported="false"
+            android:label="HELP"
+            android:theme="@style/Theme.SnsProject.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
