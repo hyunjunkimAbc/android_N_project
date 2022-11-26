@@ -2,9 +2,14 @@ package com.example.snsproject
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.View.OnClickListener
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.snsproject.databinding.ActivityLoginBinding
 import com.example.snsproject.databinding.ActivitySignupBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -70,14 +75,16 @@ class SignUpActivity : AppCompatActivity() { // 회원가입 화면
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         println("회원가입 성공")
-                        val nicknameDocument = binding.NicknameEditText.getText()
                         // DB postings 컬렉션 레퍼런스 가져오기
+                        var user = FirebaseAuth.getInstance().currentUser
                         val col = db.collection("userProfils")
                         val itemMap = hashMapOf(
                             "email" to binding.EmailEditText.getText().toString(),
-                            "password" to binding.PWEditText.getText().toString()
+                            "password" to binding.PWEditText.getText().toString(),
+                            "nickname" to binding.NicknameEditText.getText().toString(),
+                            "Uid" to (user?.uid ?: String)
                         )
-                        col.document("${nicknameDocument}").set(itemMap)
+                        col.add(itemMap)
 
 
                         val builder = AlertDialog.Builder(this)

@@ -57,13 +57,12 @@ class LoginActivity : AppCompatActivity() { // 로그인 화면
                         builder.setTitle("로그인 성공")
                             .setMessage("로그인에 성공하였습니다.")
                             .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
-                                finish()
+                                // 게시물 리스트 화면으로 이동 (PostingsActivity)
+                                val intent = Intent(this, WritePostActivity::class.java)
+                                startActivity(intent)
                             })
                         builder.create()
                         builder.show()
-                        // 게시물 리스트 화면으로 이동 (PostingsActivity)
-                        val intent = Intent(this, PostingsActivity::class.java)
-                        startActivity(intent)
                     }
                     else {
                         //로그인 실패 오류 출력
