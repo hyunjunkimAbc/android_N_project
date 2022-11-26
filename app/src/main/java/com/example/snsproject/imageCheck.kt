@@ -14,7 +14,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import java.net.URL
 
-class imageCheck : AppCompatActivity() {
+class imageCheck : AppCompatActivity() { // (임시테스트)파이어스토어에서 이미지 가져오는 화면
     private val binding by lazy {
         ActivityImageCheckBinding.inflate(layoutInflater)
     }
@@ -35,7 +35,7 @@ class imageCheck : AppCompatActivity() {
         val postCol = db.collection("postings")
         postCol.get().addOnSuccessListener {
             for (d in it) {
-                println("ㅗ자신의 문서(document) 찾는중")
+                println("자신의 문서(document) 찾는중")
                 if(user_uid.toString()==d["uid"]) {    //d["nickname"]=="hi1"
                     println("자신의 문서(document)에서 이미지 이름을 찾음")
                     imageName = d["image"].toString()
