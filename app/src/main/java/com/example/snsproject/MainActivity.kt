@@ -9,6 +9,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val intent = Intent(this,PostingsActivity::class.java)
+        intent.putExtra("userNickName","star1")
         startActivity(intent)
     }
 }
