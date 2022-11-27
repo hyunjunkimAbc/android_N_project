@@ -138,6 +138,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
                         .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
                             // 이미지 확인 -> 게시물 리스트 화면으로 대체해야함 (PostingsActivity)
                             val intent = Intent(this,PostingsActivity::class.java)
+                            intent.putExtra("userNickName",nickname)
                             startActivity(intent)
                         })
                     builder.create()

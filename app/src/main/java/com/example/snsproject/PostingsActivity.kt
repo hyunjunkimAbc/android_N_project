@@ -147,6 +147,7 @@ class PostingsActivity : AppCompatActivity() {
 
         //친구 관계 변동시
         friendCommit.addSnapshotListener { value, error ->
+            if (value ==null) return@addSnapshotListener
             for(d in value!!.documentChanges){
                 if ("${d.type}" =="REMOVED"){
                     /*
@@ -184,6 +185,7 @@ class PostingsActivity : AppCompatActivity() {
             }
         }
         posts.addSnapshotListener { value, error ->
+            if(value == null){ return@addSnapshotListener }
             for(d in value!!.documentChanges){
                 //println("${d.type}, ${d.document.id}, ${d.document.data["title"]}")
                 if ("${d.type}" =="REMOVED"){

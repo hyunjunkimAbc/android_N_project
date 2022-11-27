@@ -52,7 +52,7 @@
         <EditText
             android:id="@+id/editTextContent"
             android:layout_width="wrap_content"
-            android:layout_height="200dp"
+            android:layout_height="100dp"
             android:ems="10"
             android:gravity="top"
             android:hint="작성할 글 본문 내용"
