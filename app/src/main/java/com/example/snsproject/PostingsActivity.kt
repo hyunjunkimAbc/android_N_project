@@ -85,9 +85,13 @@ class PostingsActivity : AppCompatActivity() {
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
             //로그인 activity로 강제 이동
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
         binding.postButton.setOnClickListener {
             //게시글 작성 activity로 강제 이동
+            val intent = Intent(this, WritePostActivity::class.java)
+            startActivity(intent)
         }
 
 
