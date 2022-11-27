@@ -1,51 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/LoginTextView"
-        android:layout_width="match_parent"
-        android:layout_height="196dp"
-        android:layout_marginTop="300dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
         android:gravity="center"
         android:text="로그인"
         android:textColor="#000000"
         android:textSize="36dp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/LoginEmailEditText"
+        app:layout_constraintEnd_toEndOf="@+id/LoginEmailEditText"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="@+id/LoginEmailEditText"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/LoginEmailEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_width="350dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="3dp"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         android:padding="10dp"
-        android:password="false" />
+        android:password="false"
+        app:layout_constraintBottom_toTopOf="@+id/LoginPWEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/LoginPWEditText"
+        app:layout_constraintTop_toBottomOf="@+id/LoginTextView" />
 
     <EditText
         android:id="@+id/LoginPWEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_width="350dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="3dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:padding="10dp" />
+        android:minHeight="48dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/LoginButton"
+        app:layout_constraintStart_toStartOf="@+id/LoginButton"
+        app:layout_constraintTop_toBottomOf="@+id/LoginEmailEditText" />
 
     <Button
         android:id="@+id/LoginButton"
-        android:layout_width="match_parent"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:text="로그인" />
+        android:layout_marginStart="20dp"
+        android:text="로그인"
+        app:layout_constraintBottom_toTopOf="@+id/ToSignupButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/LoginPWEditText" />
 
     <Button
         android:id="@+id/ToSignupButton"
-        android:layout_width="match_parent"
+        android:layout_width="370dp"
         android:layout_height="wrap_content"
-        android:text="회원가입" />
-</LinearLayout>
+        android:layout_marginBottom="17dp"
+        android:text="회원가입"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/LoginButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/LoginButton"
+        app:layout_constraintTop_toBottomOf="@+id/LoginButton" />
+</androidx.constraintlayout.widget.ConstraintLayout>

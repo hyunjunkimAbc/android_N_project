@@ -37,7 +37,6 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
     private val OPEN_GALLERY = 1
     lateinit var storage : FirebaseStorage
-    //var bitmap2: String? = ""
 
     companion object {
         const val REQUEST_CODE = 1
@@ -47,6 +46,36 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
     var image : Uri? = null
     var imgName : String? = null
 
+    var timer = Timer()
+    var timeCnt = 0
+
+    fun activateTimer(){
+        //타이머 동작 시간 지정 및 작업 내용 지정
+        timer.schedule(object : TimerTask(){
+            override fun run(){
+                //카운트 값 증가
+                timeCnt ++
+                if(timeCnt > 30){
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@WritePostActivity,
+                            "30초가 넘었습니다. 네트워크 상태를 확인해 보세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    timer.cancel()
+                }
+            }
+        },1000, 1000) //1초뒤 실행, 1초 마다 반복
+    }
+    fun inActivateTimer(){
+        Toast.makeText(
+            this@WritePostActivity,
+            "포스팅을 성공했습니다.",
+            Toast.LENGTH_SHORT
+        ).show()
+        timer.cancel()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +88,6 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
         binding.imgBtn.setOnClickListener(){ // 첨부파일 이미지 버튼 클릭
             println("이미지 버튼 클릭")
-            //uploadDialog()
             // 갤러리로 이동하여 이미지 파일을 이미지뷰에 가져옴
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*")
@@ -72,6 +100,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
             val content:String = binding.editTextContent.getText().toString()
 
             if (title.length > 0 && content.length > 0 ) { // 게시글 제목과 내용이 작성되면
+                activateTimer();    // 포스팅 지연시간 30초 타이머 스타트
                 println("포스팅 성공")
                 uploadImageToStorage() // 이미지 storage로 업로드
                 var user = FirebaseAuth.getInstance().currentUser
@@ -84,12 +113,12 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
                         println("자신의 문서(document) 찾는중")
                         if(user_uid.toString()==d["Uid"]) {
                             println("자신의 문서(document) 찾음")
-                            nickname = d["nickname"].toString()
+                            nickname = d["nickName"].toString()
                         }
                     }
                     val itemMap = hashMapOf(
                         "uid" to (user?.uid ?: String),
-                        "nickname" to nickname,
+                        "nickName" to nickname,
                         "title" to binding.editTextTitle.getText().toString(),
                         "content" to binding.editTextContent.getText().toString(),
                         "image" to imgName
@@ -100,6 +129,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
 
                     // 게시글 포스트 성공
+                    inActivateTimer();  // 포스팅 지연 시간 30초이하로 완료
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("게시글 작성 성공")
                         .setMessage("게시글 작성을 성공하였습니다.")
@@ -161,18 +191,6 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         }
     }
 
-    //private fun uploadFile(file_id: Long?, fileName: String?) {
-    //    file_id ?: return
-    //    val imageRef = storage.reference.child("${UPLOAD_FOLDER}${fileName}")
-    //    val contentUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, file_id)
-    //    imageRef.putFile(contentUri).addOnCompleteListener {
-    //        if (it.isSuccessful) {
-    //            // upload success
-    //            Snackbar.make(binding.root, "Upload completed.", Snackbar.LENGTH_SHORT).show()
-    //        }
-    //    }
-    //}
-
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -214,27 +232,5 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         storageReference?.putFile(image!!)?.addOnSuccessListener {
             println("이미지 업로드 성공")
         }
-
     }
-
-
-
-    //private fun post(postproperty: PostProperty) {
-    //    var db : FirebaseFirestore = FirebaseFirestore.getInstance();
-    //    db.collection("posts").add(postproperty)//document(user.getUid()).set(postproperty)
-    //        .addOnSuccessListener((OnSuccessListener) (aVoid){
-    //            // 게시글 포스트 성공
-    //            startToast("게시글 포스트 성공")
-    //            finish()
-    //        })
-    //        .addOnFailureListener((e) {
-    //            // 게시글 포스트 실패
-    //            startToast("게시글 포스트 실패")
-    //            Log.w(TAG, "실패")
-    //        })
-    //}
-    //private fun startToast(msg : String) { Toast.makeText(this, msg, Toast.LENGTH_SHORT).show(); }
-
-
-
 }

@@ -107,7 +107,7 @@ class PostingsAdapter (private val viewModel: PostingsViewModel):RecyclerView.Ad
                 friendArr = tempStr.split(',')
                 arrayList = arrayListOf<String>()
 
-                if("${user.id}"== nickname){//업로더에서 삭제
+                if("${user["nickName"]}"== nickname){//업로더에서 삭제
                     for(friend in friendArr){
                         if("${friend.trim()}" == loginName){
 
@@ -116,14 +116,15 @@ class PostingsAdapter (private val viewModel: PostingsViewModel):RecyclerView.Ad
                         }
                     }
                     val docData = hashMapOf(
+                        "nickName" to nickname,
                         "friendArr" to arrayList
                     )
 
-                    friendCommit.document(nickname)
+                    friendCommit.document("${user.id}")
                         .set(docData)
                         .addOnSuccessListener { System.out.println("nickname업뎃 성공"); }
                         .addOnFailureListener { e ->  System.out.println(e); }
-                }else if("${user.id}" == loginName){//login user에서 업로더 삭제
+                }else if("${user["nickName"]}" == loginName){//login user에서 업로더 삭제
                     for(friend in friendArr){
                         if("${friend.trim()}" == nickname){
 
@@ -132,10 +133,11 @@ class PostingsAdapter (private val viewModel: PostingsViewModel):RecyclerView.Ad
                         }
                     }
                     val docData = hashMapOf(
+                        "nickName" to loginName,
                         "friendArr" to arrayList
                     )
 
-                    friendCommit.document(loginName)
+                    friendCommit.document("${user.id}")
                         .set(docData)
                         .addOnSuccessListener { System.out.println("loginName업뎃 성공"); }
                         .addOnFailureListener { e ->  System.out.println(e); }
@@ -169,16 +171,17 @@ class PostingsAdapter (private val viewModel: PostingsViewModel):RecyclerView.Ad
                 friendArr = tempStr.split(',')
                 arrayList = arrayListOf<String>()
 
-                if("${user.id}"== loginName){//업로더를 로그인 유저의 배열에 추가
+                if("${user["nickName"]}"== loginName){//업로더를 로그인 유저의 배열에 추가
                     for(friend in friendArr){
                         arrayList.add("${friend.trim()}")
 
                     }
                     arrayList.add(nickname)
                     val docData = hashMapOf(
+                        "nickName" to loginName,
                         "friendArr" to arrayList
                     )
-                    friendCommit.document(loginName)
+                    friendCommit.document("${user.id}")
                         .set(docData)
                         .addOnSuccessListener { System.out.println("nickname업뎃 성공"); }
                         .addOnFailureListener { e ->  System.out.println(e); }
