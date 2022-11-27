@@ -127,6 +127,7 @@ class ProfileEditActivity : AppCompatActivity(){
                     Firebase.auth.currentUser?.updateEmail(newEmail)?.addOnSuccessListener {
                         Firebase.auth.currentUser?.updatePassword(newPassWord)?.addOnSuccessListener {
                             val docData = hashMapOf(
+                                "Uid" to (Firebase.auth.currentUser!!.uid ?: String),
                                 "nickName" to newNickName,
                                 "email" to newEmail,
                                 "password" to newPassWord

@@ -46,6 +46,36 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
     var image : Uri? = null
     var imgName : String? = null
+    var timer = Timer()
+    var timeCnt = 0
+
+    fun activateTimer(){
+        //타이머 동작 시간 지정 및 작업 내용 지정
+        timer.schedule(object : TimerTask(){
+            override fun run(){
+                //카운트 값 증가
+                timeCnt ++
+                if(timeCnt > 30){
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@WritePostActivity,
+                            "30초가 넘었습니다. 네트워크 상태를 확인해 보세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    timer.cancel()
+                }
+            }
+        },1000, 1000) //1초뒤 실행, 1초 마다 반복
+    }
+    fun inActivateTimer(){
+        Toast.makeText(
+            this@WritePostActivity,
+            "포스팅을 성공했습니다.",
+            Toast.LENGTH_SHORT
+        ).show()
+        timer.cancel()
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +101,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
             val title:String = binding.editTextTitle.getText().toString()
             val content:String = binding.editTextContent.getText().toString()
 
+            activateTimer();    // 포스팅 지연시간 30초 타이머 스타트
             if (title.length > 0 && content.length > 0 ) { // 게시글 제목과 내용이 작성되면
                 println("포스팅 성공")
                 uploadImageToStorage() // 이미지 storage로 업로드
@@ -82,13 +113,13 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
                     println("Firebase userProfils 컬렉션으로 접근 성공")
                     for(d in it){
                         println("자신의 문서(document) 찾는중")
-                        if(user_uid.toString()==d["Uid"]) {
+                        if(user_uid.toString()==d["Uid"]) {//여기서 못찾았음
                             println("자신의 문서(document) 찾음")
                             nickname = d["nickName"].toString()
                         }
                     }
                     val itemMap = hashMapOf(
-                        "uid" to (user?.uid ?: String),
+                        "Uid" to (user?.uid ?: String),
                         "nickName" to nickname,
                         "title" to binding.editTextTitle.getText().toString(),
                         "content" to binding.editTextContent.getText().toString(),
@@ -100,12 +131,13 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
 
                     // 게시글 포스트 성공
+                    inActivateTimer();  // 포스팅 지연 시간 30초이하로 완료
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("게시글 작성 성공")
                         .setMessage("게시글 작성을 성공하였습니다.")
                         .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
                             // 이미지 확인 -> 게시물 리스트 화면으로 대체해야함 (PostingsActivity)
-                            val intent = Intent(this,imageCheck::class.java)
+                            val intent = Intent(this,PostingsActivity::class.java)
                             startActivity(intent)
                         })
                     builder.create()

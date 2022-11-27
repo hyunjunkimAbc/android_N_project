@@ -56,6 +56,26 @@ class SignUpActivity : AppCompatActivity() { // 회원가입 화면
                 builder.create()
                 builder.show()
             }
+            else if (binding.NicknameEditText.length()>15){     // 닉네임의 글자수가 15자 초과하면
+                println("닉네임 글자수 15자 초과")
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("회원가입 실패")
+                    .setMessage("닉네임이 너무 깁니다.\n다시 입력해주시기바랍니다.")
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                    })
+                builder.create()
+                builder.show()
+            }
+            else if (binding.PWEditText.length()>15){     // 비밀번호 글자수가 15자 초과하면
+                println("비밀번호 글자수 15자 초과")
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("회원가입 실패")
+                    .setMessage("비밀번호가 너무 깁니다.\n다시 입력해주시기바랍니다.")
+                    .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
+                    })
+                builder.create()
+                builder.show()
+            }
             else if (binding.PWEditText.getText().toString()!=binding.PWEditText2.getText().toString()){     // 첫번째 적은 비밀번호와 두번째 적은 비밀번호가 같지 않을때
                 println("비밀번호가 같지않음")
                 val builder = AlertDialog.Builder(this)
