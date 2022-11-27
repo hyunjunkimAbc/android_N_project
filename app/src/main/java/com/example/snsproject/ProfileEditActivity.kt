@@ -26,7 +26,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
+import java.util.*
 import java.util.regex.Pattern
+
 
 class ProfileEditActivity : AppCompatActivity(){
     private val binding by lazy {
@@ -43,6 +45,9 @@ class ProfileEditActivity : AppCompatActivity(){
     var newPassWord =""
 
     var currentImageUrl : Uri? = null
+
+    var timer = Timer()
+    var timeCnt = 0
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,12 +68,40 @@ class ProfileEditActivity : AppCompatActivity(){
             }
         }
     }
+    fun activateTimer(){
+        //타이머 동작 시간 지정 및 작업 내용 지정
+        timer.schedule(object : TimerTask(){
+            override fun run(){
+                //카운트 값 증가
+                timeCnt ++
+                if(timeCnt > 30){
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@ProfileEditActivity,
+                            "30초가 넘었습니다. 네트워크 상태를 확인해 보세요",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    timer.cancel()
+                }
+            }
+        },1000, 1000) //1초뒤 실행, 1초 마다 반복
+    }
+    fun inActivateTimer(){
+        Toast.makeText(
+            this@ProfileEditActivity,
+            "프로필 수정을 성공했습니다.",
+            Toast.LENGTH_SHORT
+        ).show()
+        println("--프로필 업로드 성공")
+        timer.cancel()
+    }
 
     fun uploadProfileEdit(){
         newNickName =  binding.nickNameEditText.text.toString()
         newEmail = binding.emailEditText.text.toString()
         newPassWord = binding.passwordEditText.text.toString()
-
+        activateTimer() // 타이머 실행
         /*
         if(file_id !=null && fileName != null){
             uploadFile(file_id,fileName)
@@ -157,6 +190,7 @@ class ProfileEditActivity : AppCompatActivity(){
                                                                 postings.document("${post.id}")
                                                                     .set(docData)
                                                                     .addOnSuccessListener { System.out.println("nickname업뎃 성공");
+                                                                        inActivateTimer()//성공했으니 타이머 종료
                                                                         val intent = Intent(this, PostingsActivity::class.java)
                                                                         intent.putExtra("userNickName",newNickName)
                                                                         startActivity(intent)
@@ -189,6 +223,7 @@ class ProfileEditActivity : AppCompatActivity(){
         myNickName = intent?.getStringExtra("userNickName") ?: ""
         println("my Nick" + myNickName)
         var ref = rootRef.child("user_profile_image/${myNickName}.jpg")
+
 
 
         ref.getBytes(Long.MAX_VALUE).addOnCompleteListener{
