@@ -177,12 +177,13 @@ class ProfileEditActivity : AppCompatActivity(){
                                                 .set(docData)
                                                 .addOnSuccessListener {
                                                     System.out.println("nickname업뎃 성공")
+                                                    var isFirst =true // 최초에 가입한 포스팅이 한개도 없는 유저인지
                                                     postings.get().addOnSuccessListener {
                                                         for(post in it){//문서들을 얻어온다
                                                             //본인 이름을 필드로 넣어보고 확인  ex> 본인 -상대방
 
                                                             if("${post["nickName"]}"== myNickName){//업로더를 로그인 유저의 배열에 추가
-
+                                                                isFirst = false // 게시글이 있기 때문에 최초가 아님
                                                                 val docData = hashMapOf(
                                                                     "nickName" to newNickName,
                                                                     "title" to "${post["title"]}"
@@ -197,6 +198,12 @@ class ProfileEditActivity : AppCompatActivity(){
                                                                     }
                                                                     .addOnFailureListener { e ->  System.out.println(e); }
                                                             }
+                                                        }
+                                                        if(isFirst){//최초 더라도 프로필은 수정한거는 맞으니까 PostingsActivity로 이동
+                                                            inActivateTimer()//성공했으니 타이머 종료
+                                                            val intent = Intent(this, PostingsActivity::class.java)
+                                                            intent.putExtra("userNickName",newNickName)
+                                                            startActivity(intent)
                                                         }
                                                     }
 
