@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SnsProject">
+        <activity android:name=".ProfileEditHelpActivity"
+            android:exported="false"
+            android:label="PostingEditHelpActivity"
+            android:theme="@style/Theme.SnsProject.NoActionBar"
+            />
         <activity
             android:name=".PostingsActivity"
             android:exported="false"

@@ -81,7 +81,6 @@ class PostingsActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileEditActivity::class.java)
             intent.putExtra("userNickName",myNickName)
             startActivity(intent)
-
         }
         binding.logoutButton.setOnClickListener {
             Firebase.auth.signOut()
