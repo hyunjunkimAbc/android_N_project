@@ -43,11 +43,16 @@ class PostingsActivity2 : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-
+        
+        //로그아웃 버튼
+        binding.buttonSignOut.setOnClickListener(){
+            println("로그아웃 버튼 클릭")
+            //val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, TestLoginActivity::class.java)
+            startActivity(intent)
+        }
 
         //Uid = intent?.getStringExtra("Uid") ?: ""
-
 
         val adapter = PostingsAdapter2(viewModel)
         binding.recyclerViewComment.adapter = adapter
@@ -138,7 +143,7 @@ class PostingsActivity2 : AppCompatActivity(){
                 if(post.id ==null){
                     continue
                 }
-                if( "${post["Uid"]}" == Uid ){
+                if( "${post.id}" == postId ){
                     imgUrl = "${post["image"]}"
                     nickname = "${post["nickName"]}"
                     title = "${post["title"]}"
@@ -162,6 +167,7 @@ class PostingsActivity2 : AppCompatActivity(){
 
     }
 
+    //
 
 
     // 프로필 이미지 없으면 실행

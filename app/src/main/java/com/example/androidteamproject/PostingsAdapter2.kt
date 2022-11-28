@@ -21,7 +21,6 @@ class PostingsAdapter2 (private val viewModel: PostingsViewModel2):RecyclerView.
                 val db = Firebase.firestore
                 val friendCommit = db.collection("friendCommit")
 
-
             }
 
             binding.root.setOnClickListener {
