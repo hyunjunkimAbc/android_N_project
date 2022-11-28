@@ -103,6 +103,9 @@ class PostingsActivity : AppCompatActivity() {
             val i =viewModel.itemClickEvent.value
             if(viewModel.items[i!!].statCode =="1"){//친구
                 //게시물 acitivity 로 post id 실어서 이동
+                val intent = Intent(this, PostingsActivity2::class.java)
+                intent.putExtra("postId",viewModel.items[i!!].postId)
+                startActivity(intent)
 
             }else{//친구 아님
                 Toast.makeText(this,"친구 관계만 게시물을 볼 수 있습니다.",Toast.LENGTH_SHORT).show()
