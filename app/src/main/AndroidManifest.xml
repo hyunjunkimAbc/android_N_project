@@ -40,10 +40,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity"/>
-        <activity android:name=".SignUpActivity"/>
-        <activity android:name=".WritePostActivity"/>
-        <activity android:name=".imageCheck"/>
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.SnsProject.NoActionBar"/>
+        <activity
+            android:name=".SignUpActivity"
+            android:theme="@style/Theme.SnsProject.NoActionBar"/>
+        <activity
+            android:name=".WritePostActivity"
+            android:theme="@style/Theme.SnsProject.NoActionBar"/>
+        <activity
+            android:name=".imageCheck"
+            android:theme="@style/Theme.SnsProject.NoActionBar"/>
     </application>
 
 </manifest>

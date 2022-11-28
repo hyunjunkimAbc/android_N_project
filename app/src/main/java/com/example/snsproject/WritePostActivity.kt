@@ -45,7 +45,6 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
 
     var image : Uri? = null
     var imgName : String? = null
-
     var timer = Timer()
     var timeCnt = 0
 
@@ -77,6 +76,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         timer.cancel()
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -86,8 +86,15 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         storage = Firebase.storage
         val storageRef = storage.reference
 
+        binding.logoutBtn.setOnClickListener {  // 로그아웃 버튼
+            Firebase.auth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.imgBtn.setOnClickListener(){ // 첨부파일 이미지 버튼 클릭
             println("이미지 버튼 클릭")
+            //uploadDialog()
             // 갤러리로 이동하여 이미지 파일을 이미지뷰에 가져옴
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*")
@@ -99,8 +106,8 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
             val title:String = binding.editTextTitle.getText().toString()
             val content:String = binding.editTextContent.getText().toString()
 
+            activateTimer();    // 포스팅 지연시간 30초 타이머 스타트
             if (title.length > 0 && content.length > 0 ) { // 게시글 제목과 내용이 작성되면
-                activateTimer();    // 포스팅 지연시간 30초 타이머 스타트
                 println("포스팅 성공")
                 uploadImageToStorage() // 이미지 storage로 업로드
                 var user = FirebaseAuth.getInstance().currentUser
@@ -111,13 +118,13 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
                     println("Firebase userProfils 컬렉션으로 접근 성공")
                     for(d in it){
                         println("자신의 문서(document) 찾는중")
-                        if(user_uid.toString()==d["Uid"]) {
+                        if(user_uid.toString()==d["Uid"]) {//여기서 못찾았음
                             println("자신의 문서(document) 찾음")
                             nickname = d["nickName"].toString()
                         }
                     }
                     val itemMap = hashMapOf(
-                        "uid" to (user?.uid ?: String),
+                        "Uid" to (user?.uid ?: String),
                         "nickName" to nickname,
                         "title" to binding.editTextTitle.getText().toString(),
                         "content" to binding.editTextContent.getText().toString(),
@@ -135,7 +142,8 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
                         .setMessage("게시글 작성을 성공하였습니다.")
                         .setPositiveButton("확인", DialogInterface.OnClickListener { dialog, id ->
                             // 이미지 확인 -> 게시물 리스트 화면으로 대체해야함 (PostingsActivity)
-                            val intent = Intent(this,imageCheck::class.java)
+                            val intent = Intent(this,PostingsActivity::class.java)
+                            intent.putExtra("userNickName",nickname)
                             startActivity(intent)
                         })
                     builder.create()
@@ -191,6 +199,7 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         }
     }
 
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -232,5 +241,9 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         storageReference?.putFile(image!!)?.addOnSuccessListener {
             println("이미지 업로드 성공")
         }
+
     }
+
+
+
 }
