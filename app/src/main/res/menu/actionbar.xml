@@ -4,23 +4,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!---액션 버튼 "작성"아이템 -->
-    <item
-        android:id="@+id/Item1"
+    <!--<item
+        android:id="@+id/Item2"
         android:icon="@drawable/edit"
-        android:title="Item1"
-        app:showAsAction="always" />
+        android:title="Item2"
+        app:showAsAction="always" />-->
     <!---액션 버튼 "로그아웃"아이템 -->
     <item
-        android:id="@+id/Item2"
+        android:id="@+id/Item1"
         android:icon="@drawable/sign_out"
-        android:title="Item2"
+        android:title="Item1"
         app:showAsAction="always" />
     <!---액션 버튼 "help(설명)"아이템 -->
-    <item
+    <!--<item
         android:id="@+id/Item3"
         android:icon="@drawable/information"
         android:title="Item2"
-        app:showAsAction="always" />
+        app:showAsAction="always" />-->
 
 
 </menu>

@@ -16,7 +16,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/commenter_image"
+            android:id="@+id/imageView"
             android:layout_width="150dp"
             android:layout_height="80dp"
             android:layout_weight="1"
@@ -29,16 +29,20 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/commenter_name"
+                android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="댓글 작성자의 이름" />
+                android:text="댓글 작성자의 이름"
+                android:textSize="15sp"
+                />
 
             <TextView
-                android:id="@+id/commenter_post"
+                android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="댓글 작성자의 댓글입니다." />
+                android:text="댓글 작성자의 댓글입니다."
+                android:textSize="20sp"
+                />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
