@@ -87,6 +87,12 @@ class WritePostActivity  : AppCompatActivity() { // 게시글 작성 화면
         storage = Firebase.storage
         val storageRef = storage.reference
 
+        binding.logoutBtn.setOnClickListener {  // 로그아웃 버튼
+            Firebase.auth.signOut()
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.imgBtn.setOnClickListener(){ // 첨부파일 이미지 버튼 클릭
             println("이미지 버튼 클릭")
             //uploadDialog()

@@ -46,9 +46,9 @@ class PostingsActivity2 : AppCompatActivity(){
 
         postId = intent?.getStringExtra("postId") ?: ""
         val adapter = PostingsAdapter2(viewModel)
-        binding.recyclerViewComment.adapter = adapter
-        binding.recyclerViewComment.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewComment.setHasFixedSize(true)
+        //binding.recyclerViewComment.adapter = adapter
+        //binding.recyclerViewComment.layoutManager = LinearLayoutManager(this)
+        //binding.recyclerViewComment.setHasFixedSize(true)
         //myNickName = intent?.getStringExtra("userNickName") ?: ""
         //viewModel.loginUserName = myNickName
 
@@ -106,7 +106,12 @@ class PostingsActivity2 : AppCompatActivity(){
             adapter.notifyDataSetChanged()
         }
 
-        registerForContextMenu(binding.recyclerViewComment)
+        //registerForContextMenu(binding.recyclerViewComment)
+        binding.buttonSignOut.setOnClickListener {
+            Firebase.auth.signOut()
+            val intent =Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
 
         //테스트용 로그인
         /*
